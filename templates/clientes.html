@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clientes</title>
+</head>
+<body>
+    <h1>Clientes</h1>
+    <table border="1">
+        <tr>
+            <th>NIF</th><th>Nome</th><th>Data de Nascimento</th>
+        </tr>
+        {% for c in clientes %}
+        <tr>
+            <td>{{ c['NIF'] }}</td>
+            <td>{{ c['Nome'] }}</td>
+            <td>{{ c['Data de Nascimento'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/">Voltar</a>
+</body>
+</html>

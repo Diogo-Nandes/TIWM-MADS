@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Veículos</title>
+</head>
+<body>
+    <h1>Veículos</h1>
+    <table border="1">
+        <tr>
+            <th>Matrícula</th><th>Marca</th><th>Modelo</th><th>Ano</th>
+            <th>Combustível</th><th>Quilómetros</th><th>Preço por Dia</th>
+        </tr>
+        {% for v in veiculos %}
+        <tr>
+            <td>{{ v['Matricula'] }}</td>
+            <td>{{ v['Marca'] }}</td>
+            <td>{{ v['Modelo'] }}</td>
+            <td>{{ v['Ano'] }}</td>
+            <td>{{ v['Combustível'] }}</td>
+            <td>{{ v['Quilómetros'] }}</td>
+            <td>{{ v['Preço por Dia'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/">Voltar</a>
+</body>
+</html>

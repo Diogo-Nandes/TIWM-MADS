@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alugueres</title>
+</head>
+<body>
+    <h1>Alugueres</h1>
+    <table border="1">
+        <tr>
+            <th>NIF Cliente</th><th>Matrícula Veículo</th><th>Início</th>
+            <th>Fim</th><th>Total</th>
+        </tr>
+        {% for a in alugueres %}
+        <tr>
+            <td>{{ a['NIF_Cliente'] }}</td>
+            <td>{{ a['Matricula_Veiculo'] }}</td>
+            <td>{{ a['Início'] }}</td>
+            <td>{{ a['Fim'] }}</td>
+            <td>{{ a['Total'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/">Voltar</a>
+</body>
+</html>
