@@ -12,10 +12,8 @@ SCOPE = [
     "https://www.googleapis.com/auth/drive"
 ]
 
-credenciais = Credentials.from_service_account_file(
-    'credenciais.json',
-    scopes=SCOPE
-)
+credenciais_json = json.loads(os.environ.get('GOOGLE_CREDENTIALS'))
+credenciais = Credentials.from_service_account_info(credenciais_json)
 
 cliente = gspread.authorize(credenciais)
 ID_SHEET = '1FsDLfIjmcBC8WQGUZ3Fg6VTpr1dtlOeEA8uct5r4LX0'
