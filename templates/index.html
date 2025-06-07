@@ -2,13 +2,400 @@
 <html>
 <head>
     <title>Gestão de Alugueres</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f7f9fb;
+            color: #222;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(90deg, #1e90ff 60%, #00bfff 100%);
+            color: #fff;
+            padding: 30px 0 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(30,144,255,0.08);
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .auth-box-top {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            z-index: 10;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-start;
+            min-width: 0;
+        }
+        .auth-box-top form {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            align-items: flex-end;
+            margin: 0;
+        }
+        .auth-box-top .auth-fields {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            background: #eaf3fc;
+            border: 1px solid #b6d6f6;
+            border-radius: 8px;
+            padding: 10px 18px;
+            box-shadow: 0 2px 8px rgba(30,144,255,0.10);
+        }
+        .logout-box {
+            background: #eaf3fc;
+            border: 1px solid #b6d6f6;
+            border-radius: 8px;
+            padding: 10px 18px;
+            box-shadow: 0 2px 8px rgba(30,144,255,0.10);
+        }
+        .auth-box-top label {
+            font-weight: 500;
+            color: #1e90ff;
+            margin-right: 5px;
+        }
+        .auth-box-top input[type="password"] {
+            padding: 6px;
+            border-radius: 5px;
+            border: 1px solid #b6d6f6;
+            margin-right: 7px;
+        }
+        .auth-box-top button {
+            background: #1e90ff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 6px 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .auth-box-top button:hover {
+            background: #007acc;
+        }
+        .logout-btn {
+            background: #ff9800;
+            color: #fff;
+            border: 2px solid #b6d6f6;
+            border-radius: 8px;
+            padding: 8px 22px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s, border-color 0.2s;
+            box-shadow: 0 3px 8px rgba(255,152,0,0.12);
+            outline: none;
+        }
+        .logout-btn:hover {
+            background: #f57c00;
+            box-shadow: 0 6px 16px rgba(255,152,0,0.15);
+            border-color: #1e90ff;
+        }
+        .error {
+            color: #d8000c;
+            background: #ffdddd;
+            border-left: 5px solid #d8000c;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.98em;
+            margin-left: 0;
+            margin-top: 5px;
+        }
+        .paginacao {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+        .pagina-btn {
+            background: #1e90ff;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .pagina-btn:hover {
+            background: #007acc;
+        }
+        .pagina-btn.desativado {
+            background: #ddd;
+            cursor: not-allowed;
+        }
+        .pagina-info {
+            color: #666;
+            font-size: 0.95em;
+        }
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5em;
+            letter-spacing: 1px;
+        }
+        h2 {
+            color: #1e90ff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+            border-left: 5px solid #1e90ff;
+            padding-left: 10px;
+            letter-spacing: 1px;
+        }
+        #map {
+            height: 400px;
+            width: 100%;
+            margin: 0 auto 30px auto;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(30,144,255,0.15);
+            max-width: 900px;
+            display: block;
+        }
+        .content {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(30,144,255,0.10);
+            padding: 30px 30px 50px 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 35px;
+            background: #fafdff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(30,144,255,0.06);
+        }
+        th, td {
+            border: none;
+            padding: 10px 8px;
+            text-align: left;
+        }
+        th {
+            background: #eaf3fc;
+            color: #1e90ff;
+            font-weight: 600;
+            border-bottom: 2px solid #b6d6f6;
+        }
+        tr:nth-child(even) {
+            background: #f3f8fd;
+        }
+        tr:hover {
+            background: #e1f0ff;
+        }
+        .filter-box {
+            margin: 0 0 30px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .filter-box label {
+            font-weight: 500;
+            color: #1e90ff;
+        }
+        .filter-box input {
+            padding: 7px 10px;
+            border-radius: 5px;
+            border: 1px solid #b6d6f6;
+            width: 220px;
+            font-size: 1em;
+        }
+        @media (max-width: 1000px) {
+            .content { padding: 10px; }
+            #map { max-width: 100%; }
+        }
+        @media (max-width: 700px) {
+            th, td { font-size: 0.98em; padding: 7px 4px; }
+            h1 { font-size: 2em; }
+            .content { padding: 2vw; }
+            .auth-box-top { right: 10px; top: 10px; }
+            .auth-box-top .auth-fields, .logout-box { padding: 6px 8px; }
+        }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
-    <h1>Gestão de Alugueres</h1>
-    <ul>
-        <li><a href="/veiculos">Veículos</a></li>
-        <li><a href="/clientes">Clientes</a></li>
-        <li><a href="/alugueres">Alugueres</a></li>
-    </ul>
+    <header>
+        {% if not authenticated %}
+        <div class="auth-box-top">
+            <form method="POST">
+                <div class="auth-fields">
+                    <label>Password:</label>
+                    <input type="password" name="password" required>
+                    <button type="submit">Aceder</button>
+                </div>
+                {% if error %}
+                <div class="error">{{ error }}</div>
+                {% endif %}
+            </form>
+        </div>
+        {% else %}
+        <div class="auth-box-top">
+            <div class="logout-box">
+                <form action="{{ url_for('logout') }}" method="POST" style="margin:0;">
+                    <button type="submit" class="logout-btn">Terminar Sessão</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+        <h1>Gestão de Alugueres de Veículos</h1>
+        <div style="font-size:1.1em; opacity:0.85;">Visualização de tabelas de veículos, clientes, alugueres e stands</div>
+    </header>
+    <div class="content">
+        <!-- Mapa -->
+        <h2>Localização dos Stands</h2>
+        <div id="map"></div>
+
+        <!-- Filtro global -->
+        <div class="filter-box">
+            <label for="filtro">Filtrar tabelas:</label>
+            <input type="text" id="filtro" placeholder="Escreva para filtrar...">
+        </div>
+
+        <!-- Tabela Veículos -->
+        <h2>Veículos</h2>
+        <table>
+            <tr>
+                {% if veiculos %}
+                    {% for key in veiculos[0].keys() %}
+                        <th>{{ key }}</th>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+            {% for v in veiculos %}
+            <tr>
+                {% for value in v.values() %}
+                    <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% set tabela = 'veiculos' %}
+        {% include 'paginacao.html' %}
+
+        <!-- Tabela Alugueres -->
+        <h2>Alugueres</h2>
+        <table>
+            <tr>
+                {% if authenticated %}
+                    {% if alugueres %}{% for key in alugueres[0].keys() %}<th>{{ key }}</th>{% endfor %}{% endif %}
+                {% else %}
+                    <th>Matrícula</th>
+                    <th>Início</th>
+                    <th>Fim</th>
+                {% endif %}
+            </tr>
+            {% for a in alugueres %}
+            <tr>
+                {% if authenticated %}
+                    {% for value in a.values() %}
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                {% else %}
+                    <td>{{ a['Matricula_Veiculo'] }}</td>
+                    <td>{{ a['Início'] }}</td>
+                    <td>{{ a['Fim'] }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% set tabela = 'alugueres' %}
+        {% include 'paginacao.html' %}
+
+        {% if authenticated %}
+        <h2>Clientes</h2>
+        <table>
+            <tr>
+                {% if clientes %}
+                    {% for key in clientes[0].keys() %}
+                        <th>{{ key }}</th>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+            {% for c in clientes %}
+            <tr>
+                {% for value in c.values() %}
+                    <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% set tabela = 'clientes' %}
+        {% include 'paginacao.html' %}
+
+        <h2>Stands</h2>
+        <table>
+            <tr>
+                {% if stands %}
+                    {% for key in stands[0].keys() %}
+                        <th>{{ key }}</th>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+            {% for s in stands %}
+            <tr>
+                {% for value in s.values() %}
+                    <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% set tabela = 'stands' %}
+        {% include 'paginacao.html' %}
+        {% endif %}
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var stands = JSON.parse('{{ stands_mapa | tojson | safe }}');
+        var map = L.map('map').setView([38.7223, -9.1393], 6);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+        stands.forEach(function(stand) {
+            if (stand.Latitude && stand.Longitude) {
+                var marker = L.marker([
+                    parseFloat(stand.Latitude),
+                    parseFloat(stand.Longitude)
+                ]).addTo(map);
+                var conteudoPopup = `
+                    <b>${stand.Nome}</b><hr>
+                    <u>Veículos disponíveis:</u><br>
+                    ${stand.Matriculas.length > 0 ?
+                        stand.Matriculas.join(', ') :
+                        'Nenhum veículo registado'}
+                `;
+                marker.bindPopup(conteudoPopup);
+            }
+        });
+        if (stands.length > 0) {
+            var bounds = L.latLngBounds(stands.map(s =>
+                [s.Latitude, s.Longitude]
+            ));
+            map.fitBounds(bounds.pad(0.2));
+        }
+        document.getElementById('filtro').addEventListener('keyup', function() {
+            var filtro = this.value.toLowerCase();
+            var tabelas = document.querySelectorAll('table');
+            tabelas.forEach(function(tabela) {
+                var linhas = tabela.getElementsByTagName('tr');
+                for (var i = 1; i < linhas.length; i++) {
+                    var textoLinha = linhas[i].textContent.toLowerCase();
+                    linhas[i].style.display = textoLinha.indexOf(filtro) > -1 ? '' : 'none';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

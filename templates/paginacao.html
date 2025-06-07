@@ -1,0 +1,22 @@
+<div class="paginacao">
+    {% set pag = paginas[tabela] %}
+    <a href="{{ url_for('index',
+        page_veiculos=(pag.atual - 1 if tabela == 'veiculos' else params.veiculos),
+        page_alugueres=(pag.atual - 1 if tabela == 'alugueres' else params.alugueres),
+        page_clientes=(pag.atual - 1 if tabela == 'clientes' else params.clientes),
+        page_stands=(pag.atual - 1 if tabela == 'stands' else params.stands)
+    ) }}" class="pagina-btn {% if pag.atual <= 1 %}desativado{% endif %}" {% if pag.atual <= 1 %}tabindex="-1" aria-disabled="true"{% endif %}>
+        &laquo; Anterior
+    </a>
+    <span class="pagina-info">
+        Página {{ pag.atual }} de {{ pag.total }}
+    </span>
+    <a href="{{ url_for('index',
+        page_veiculos=(pag.atual + 1 if tabela == 'veiculos' else params.veiculos),
+        page_alugueres=(pag.atual + 1 if tabela == 'alugueres' else params.alugueres),
+        page_clientes=(pag.atual + 1 if tabela == 'clientes' else params.clientes),
+        page_stands=(pag.atual + 1 if tabela == 'stands' else params.stands)
+    ) }}" class="pagina-btn {% if pag.atual >= pag.total %}desativado{% endif %}" {% if pag.atual >= pag.total %}tabindex="-1" aria-disabled="true"{% endif %}>
+        Próxima &raquo;
+    </a>
+</div>
