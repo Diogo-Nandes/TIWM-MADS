@@ -8,8 +8,8 @@ app = Flask(__name__)
 app.secret_key = 'app_secret_key'
 
 SCOPE = [
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/drive"
+    "https://www.googleapis.com/auth/spreadsheets.readonly",
+    "https://www.googleapis.com/auth/drive.readonly"
 ]
 
 credenciais_json = json.loads(os.environ.get('GOOGLE_CREDENTIALS'))
